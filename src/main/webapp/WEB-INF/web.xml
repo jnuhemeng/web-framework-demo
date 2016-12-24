@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+	id="WebApp_ID" version="3.0">
+  <display-name>web-framework-demo</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+	  
+  	<!-- Struts2的核心过滤器配置 Begin -->
+ 	<filter>
+ 		<filter-name>struts2</filter-name>
+ 		<filter-class>
+			org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+		</filter-class>
+		<init-param>  
+    		<!-- 通过初始化参数config指定配置文件,默认加载struts-default.xml，struts-plugin.xml，struts.xml(位于webapp/WEB-INF/classes下) -->
+        	<param-name>config</param-name>  
+            <param-value>  
+            	struts-default.xml,struts-plugin.xml,struts.xml  
+            </param-value>  
+       	</init-param>  
+ 	</filter> 
+ 	<filter-mapping>
+ 		<filter-name>struts2</filter-name>
+ 		<url-pattern>/*</url-pattern>
+ 		<!-- 过滤器默认只拦截请求 -->
+ 		<!-- <dispatcher>REQUEST</dispatcher>
+ 		<dispatcher>FORWARD</dispatcher> -->
+ 	</filter-mapping>
+  	<!-- Struts2的核心过滤器配置 End -->
+  	
+  	
+  	<!-- Spring配置 Begin -->  
+  	<!-- 加载和关闭Spring Web容器，ContextLoaderListener监听器将在Web应用启动时使用指定的配置文件初始化Spring Web容器，在Web应用关闭时销毁Spring Web容器 -->
+  	<listener>  
+        <listener-class>  
+            org.springframework.web.context.ContextLoaderListener  
+        </listener-class>  
+    </listener> 
+	<context-param>
+  		<!-- 指定Web应用上下文实现,默认实现是Spring提供的XmlWebApplicationContext -->
+    	<param-name>contextClass</param-name>
+    	<param-value>  
+        	org.springframework.web.context.support.XmlWebApplicationContext  
+    	</param-value>
+  	</context-param>
+    <context-param>  
+    	<!-- 指定加载文件位置,默认情况下将/WEB-INF/applicationContext.xml作为配置文件 -->
+        <param-name>contextConfigLocation</param-name>  
+        <param-value> 
+            classpath:/context/spring-*.xml
+        </param-value> 
+    </context-param>  
+    <!-- Spring配置 End -->	
+    
+</web-app>
+
+
+

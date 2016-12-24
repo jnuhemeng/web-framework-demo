@@ -1,0 +1,8 @@
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/service/impl/ProductServiceImpl.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/domain/Product.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/common/dao/impl/BaseDaoHibernate4.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/action/ListProductAction.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/dao/impl/ProductDaoHibernate4.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/dao/ProductDao.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/common/dao/BaseDao.java
+/home/hemeng/Documents/JavaEE/projects/web-framework-demo/src/main/java/com/lemonpi/web/product/service/ProductService.java

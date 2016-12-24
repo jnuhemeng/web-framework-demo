@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:repository="http://www.springframework.org/schema/data/repository"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-lazy-init="false">
+
+	<description>Spring-Hibernate配置 </description>
+	
+	<!-- 连接池(C3P0)配置 Begin -->
+	<!-- 引入外部属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close"
+		p:driverClass="${jdbc.driver}"
+		p:jdbcUrl="${jdbc.url}"
+		p:user="${jdbc.user}"
+		p:password="${jdbc.password}"
+		p:maxPoolSize="${jdbc.maxPoolSize}"
+		p:minPoolSize="${jdbc.minPoolSize}"
+		p:initialPoolSize="${jdbc.initialPoolSize}"
+		p:maxIdleTime="${jdbc.maxIdleTime}"/>
+	<!-- 连接池(C3P0)配置 End -->
+	
+	
+	<!-- Hibernate相关信息配置 Begin -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		<!-- 列出全部持久类 -->
+		<property name="annotatedClasses">
+			<list>
+				<value>com.lemonpi.web.product.domain.Product</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Hibernate相关信息配置 End -->
+	
+	
+	<!-- Hibernate的事务配置　Begin -->
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory"/>
+	<!-- 以下两部分的配置将由注解来实现 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- 配置事务增强处理Bean
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*" isolation="DEFAULT"
+				propagation="REQUIRED" timeout="5"/>
+		</tx:attributes>
+	</tx:advice>
+	通过AOP将事务增强处理织入Dao中的方法
+	<aop:config>
+		<aop:pointcut id="myPointcut" expression="bean(*ServiceImpl)"/>
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="myPointcut"/>
+	</aop:config> -->
+	<!-- 配置Hibernate的事务结束 End -->
+	
+</beans>
+
+
